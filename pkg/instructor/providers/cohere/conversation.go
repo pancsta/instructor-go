@@ -2,7 +2,7 @@ package cohere
 
 import (
 	cohere "github.com/cohere-ai/cohere-go/v2"
-	"github.com/jxnl/instructor-go/pkg/instructor/core"
+	"github.com/pancsta/instructor-go/pkg/instructor/core"
 )
 
 // ToCohereMessages converts unified conversation messages to Cohere format

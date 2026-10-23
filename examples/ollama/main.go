@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jxnl/instructor-go/pkg/instructor"
-	"github.com/jxnl/instructor-go/pkg/instructor/core"
-	instructor_openai "github.com/jxnl/instructor-go/pkg/instructor/providers/openai"
+	"github.com/pancsta/instructor-go/pkg/instructor"
+	"github.com/pancsta/instructor-go/pkg/instructor/core"
+	instructor_openai "github.com/pancsta/instructor-go/pkg/instructor/providers/openai"
 	"github.com/sashabaranov/go-openai"
 )
 

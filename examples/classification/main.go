@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jxnl/instructor-go/pkg/instructor"
-	"github.com/jxnl/instructor-go/pkg/instructor/core"
-	instructor_anthropic "github.com/jxnl/instructor-go/pkg/instructor/providers/anthropic"
+	"github.com/pancsta/instructor-go/pkg/instructor"
+	"github.com/pancsta/instructor-go/pkg/instructor/core"
+	instructor_anthropic "github.com/pancsta/instructor-go/pkg/instructor/providers/anthropic"
 	"github.com/liushuangls/go-anthropic/v2"
 )
 

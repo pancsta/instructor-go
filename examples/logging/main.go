@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/jxnl/instructor-go/pkg/instructor"
-	"github.com/jxnl/instructor-go/pkg/instructor/core"
+	"github.com/pancsta/instructor-go/pkg/instructor"
+	"github.com/pancsta/instructor-go/pkg/instructor/core"
 	anthropic "github.com/liushuangls/go-anthropic/v2"
 )
 

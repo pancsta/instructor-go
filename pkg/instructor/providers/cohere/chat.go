@@ -6,7 +6,7 @@ import (
 
 	cohere "github.com/cohere-ai/cohere-go/v2"
 	option "github.com/cohere-ai/cohere-go/v2/option"
-	"github.com/jxnl/instructor-go/pkg/instructor/core"
+	"github.com/pancsta/instructor-go/pkg/instructor/core"
 )
 
 // Chat provides the public API that matches the original signature

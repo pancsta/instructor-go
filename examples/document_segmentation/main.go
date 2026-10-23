@@ -9,9 +9,9 @@ import (
 
 	cohere "github.com/cohere-ai/cohere-go/v2"
 	cohereclient "github.com/cohere-ai/cohere-go/v2/client"
-	"github.com/jxnl/instructor-go/pkg/instructor"
-	"github.com/jxnl/instructor-go/pkg/instructor/core"
-	instructor_cohere "github.com/jxnl/instructor-go/pkg/instructor/providers/cohere"
+	"github.com/pancsta/instructor-go/pkg/instructor"
+	"github.com/pancsta/instructor-go/pkg/instructor/core"
+	instructor_cohere "github.com/pancsta/instructor-go/pkg/instructor/providers/cohere"
 )
 
 type Section struct {

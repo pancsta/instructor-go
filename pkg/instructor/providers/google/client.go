@@ -1,7 +1,7 @@
 package google
 
 import (
-	"github.com/jxnl/instructor-go/pkg/instructor/core"
+	"github.com/pancsta/instructor-go/pkg/instructor/core"
 	"google.golang.org/genai"
 )
 

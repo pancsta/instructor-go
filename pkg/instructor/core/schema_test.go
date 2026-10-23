@@ -17,9 +17,9 @@ type TestRequest struct {
 
 func TestNewSchemaWithGodoc(t *testing.T) {
 	godoc := map[string]string{
-		"github.com/jxnl/instructor-go/pkg/instructor/core.TestUser":      "A test user struct.",
-		"github.com/jxnl/instructor-go/pkg/instructor/core.TestUser.Name": "The user's full name.",
-		"github.com/jxnl/instructor-go/pkg/instructor/core.TestUser.Age":  "The user's age in years.",
+		"github.com/pancsta/instructor-go/pkg/instructor/core.TestUser":      "A test user struct.",
+		"github.com/pancsta/instructor-go/pkg/instructor/core.TestUser.Name": "The user's full name.",
+		"github.com/pancsta/instructor-go/pkg/instructor/core.TestUser.Age":  "The user's age in years.",
 	}
 
 	tReq := reflect.TypeOf(TestRequest{})

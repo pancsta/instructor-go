@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/jxnl/instructor-go/pkg/instructor"
+	"github.com/pancsta/instructor-go/pkg/instructor"
 	"github.com/liushuangls/go-anthropic/v2"
 )
 

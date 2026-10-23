@@ -1,4 +1,4 @@
-module github.com/jxnl/instructor-go
+module github.com/pancsta/instructor-go
 
 go 1.25.0
 

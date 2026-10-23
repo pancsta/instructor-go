@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jxnl/instructor-go/pkg/instructor"
+	"github.com/pancsta/instructor-go/pkg/instructor"
 	anthropic "github.com/liushuangls/go-anthropic/v2"
 )
 

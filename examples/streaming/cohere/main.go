@@ -7,7 +7,7 @@ import (
 
 	cohere "github.com/cohere-ai/cohere-go/v2"
 	cohereclient "github.com/cohere-ai/cohere-go/v2/client"
-	"github.com/jxnl/instructor-go/pkg/instructor"
+	"github.com/pancsta/instructor-go/pkg/instructor"
 )
 
 type HistoricalFact struct {
