@@ -232,11 +232,20 @@ func (i *InstructorOpenAI) chatJSON(ctx context.Context, request *openai.ChatCom
 
 func (i *InstructorOpenAI) chatJSONSchema(ctx context.Context, request *openai.ChatCompletionRequest, schema *core.Schema) (string, *openai.ChatCompletionResponse, error) {
 
-	request.Messages = core.Prepend(request.Messages, *createJSONMessage(schema))
+	jsonMsg := createJSONMessage(schema)
+	if len(request.Messages) > 0 && request.Messages[0].Role == openai.ChatMessageRoleSystem {
+		request.Messages[0].Content = jsonMsg.Content + "\n\n\n" + request.Messages[0].Content
+	} else {
+		request.Messages = core.Prepend(request.Messages, *jsonMsg)
+	}
 
 	resp, err := i.Client.CreateChatCompletion(ctx, *request)
 	if err != nil {
 		return "", nil, err
+	}
+
+	if len(resp.Choices) < 1 {
+		return "", nilOpenaiRespWithUsage(&resp), errors.New("received empty response from model")
 	}
 
 	text := resp.Choices[0].Message.Content
@@ -293,12 +302,16 @@ func (i *InstructorOpenAI) CountUsageFromResponse(response interface{}, usage *c
 
 func createJSONMessage(schema *core.Schema) *openai.ChatCompletionMessage {
 	message := fmt.Sprintf(`
-Please respond with JSON in the following JSON schema:
+All messages but this system prompt are in JSON. Respond in the following JSON schema:
 
-%s
+    %s
 
-Make sure to return an instance of the JSON, not the schema itself
-`, schema.String)
+Make sure to return an instance of such JSON, not the schema itself.
+	
+All the user messages have the following JSON schema:
+
+    %s
+`, schema.StringRes, schema.StringReq)
 
 	msg := &openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,

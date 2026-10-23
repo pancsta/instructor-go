@@ -73,7 +73,7 @@ Please respond with a JSON array where the elements following JSON schema:
 %s
 
 Make sure to return an array with the elements an instance of the JSON, not the schema itself.
-`, schema.String)
+`, schema.StringRes)
 
 	msg := &openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,

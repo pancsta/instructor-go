@@ -161,7 +161,7 @@ Please responsd with json in the following json_schema:
 %s
 
 Make sure to return an instance of the JSON, not the schema itself.
-`, schema.String)
+`, schema.StringRes)
 
 	if request.System == "" {
 		request.System = system

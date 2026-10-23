@@ -63,7 +63,7 @@ func defaultAppendErrorToRequest(request interface{}, failedResponse string, err
 	contentField := assistantMsg.FieldByName("Content")
 	if contentField.IsValid() && contentField.CanSet() {
 		if contentField.Kind() == reflect.String {
-			contentField.SetString(failedResponse)
+			contentField.SetString(errorMessage)
 		}
 	}
 
@@ -115,9 +115,17 @@ func ChatHandler(i Instructor, ctx context.Context, request interface{}, respons
 		"response_type", fmt.Sprintf("%T", response),
 	)
 
-	t := reflect.TypeOf(response)
+	tRes := reflect.TypeOf(response)
+	tReq := reflect.TypeOf(request)
 
-	schema, err := NewSchema(t)
+	godoc := GodocFromContext(ctx)
+	if godoc == nil {
+		if gp, ok := i.(interface{ Godoc() map[string]string }); ok {
+			godoc = gp.Godoc()
+		}
+	}
+
+	schema, err := NewSchema(tReq, tRes, godoc)
 	if err != nil {
 		logger.Error("schema creation failed", "error", err)
 		return nil, err
@@ -148,8 +156,12 @@ func ChatHandler(i Instructor, ctx context.Context, request interface{}, respons
 		)
 
 		text = ExtractJSON(&text)
+		if text == "" {
+			err =  fmt.Errorf("empty response")
+		} else {
+			err = json.Unmarshal([]byte(text), &response)
+		}
 
-		err = json.Unmarshal([]byte(text), &response)
 		if err != nil {
 			i.CountUsageFromResponse(resp, usage)
 
@@ -207,7 +219,7 @@ func ChatHandler(i Instructor, ctx context.Context, request interface{}, respons
 					)
 					errorMessage := fmt.Sprintf("Validation failed: %s. Fix the values and retry.", err.Error())
 					// Try provider-specific handler first, fall back to default
-					if customRequest := i.AppendErrorToRequest(request, text, errorMessage); customRequest != nil {
+					if customRequest := i.AppendErrorToRequest( request, text, errorMessage); customRequest != nil {
 						request = customRequest
 					} else {
 						request = defaultAppendErrorToRequest(request, text, errorMessage)
@@ -279,7 +291,8 @@ func ChatHandlerUnion(i Instructor, ctx context.Context, request interface{}, op
 		logger.Error("schema marshaling failed", "error", err)
 		return nil, nil, fmt.Errorf("failed to marshal union schema: %w", err)
 	}
-	schema.String = string(schemaBytes)
+	schema.StringRes = string(schemaBytes)
+	// TODO request schema
 
 	// keep a running total of usage
 	usage := &UsageSum{}

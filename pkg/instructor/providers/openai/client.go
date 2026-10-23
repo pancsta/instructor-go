@@ -13,6 +13,7 @@ type InstructorOpenAI struct {
 	maxRetries int
 	validate   bool
 	logger     core.Logger
+	godoc      map[string]string
 }
 
 var _ core.Instructor = &InstructorOpenAI{}
@@ -29,8 +30,13 @@ func FromOpenAI(client *openai.Client, opts ...core.Options) *InstructorOpenAI {
 		maxRetries: *options.MaxRetries,
 		validate:   *options.Validate,
 		logger:     options.Logger,
+		godoc:      options.Godoc,
 	}
 	return i
+}
+
+func (i *InstructorOpenAI) Godoc() map[string]string {
+	return i.godoc
 }
 
 func (i *InstructorOpenAI) Provider() core.Provider {

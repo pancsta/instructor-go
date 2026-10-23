@@ -349,6 +349,15 @@ func (c *Conversation) Length() int {
 	return len(c.messages)
 }
 
+// LengthChars returns the total number of chars in the conversation.
+func (c *Conversation) LengthChars() int {
+	ret := 0
+	for _, m := range c.messages {
+		ret += len(m.Content)
+	}
+	return ret
+}
+
 // SetProvider sets the provider for this conversation
 func (c *Conversation) SetProvider(provider Provider) {
 	c.provider = provider

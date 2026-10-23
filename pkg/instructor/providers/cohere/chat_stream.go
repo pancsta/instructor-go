@@ -50,7 +50,7 @@ func (i *InstructorCohere) chatJSONStream(ctx context.Context, request *cohere.C
 
 func (i *InstructorCohere) addOrConcatJSONSystemPromptStream(request *cohere.ChatStreamRequest, schema *core.Schema) {
 
-	schemaPrompt := fmt.Sprintf("```json!Please respond with JSON in the following JSON schema - make sure to return an instance of the JSON, not the schema itself: %s ", schema.String)
+	schemaPrompt := fmt.Sprintf("```json!Please respond with JSON in the following JSON schema - make sure to return an instance of the JSON, not the schema itself: %s ", schema.StringRes)
 
 	if request.Preamble == nil {
 		request.Preamble = &schemaPrompt

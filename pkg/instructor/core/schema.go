@@ -1,6 +1,7 @@
 package core
 
 import (
+	"context"
 	"encoding/json"
 	"reflect"
 	"strings"
@@ -8,9 +9,28 @@ import (
 	"github.com/invopop/jsonschema"
 )
 
+const godocContextKey contextKey = "instructor_godoc"
+
+// ContextWithGodoc returns a new Context with the godoc comment map attached.
+func ContextWithGodoc(ctx context.Context, godoc map[string]string) context.Context {
+	return context.WithValue(ctx, godocContextKey, godoc)
+}
+
+// GodocFromContext extracts the godoc comment map from the Context, if present.
+func GodocFromContext(ctx context.Context) map[string]string {
+	if godoc, ok := ctx.Value(godocContextKey).(map[string]string); ok {
+		return godoc
+	}
+	return nil
+}
+
+// WithGodoc is an alias for ContextWithGodoc.
+var WithGodoc = ContextWithGodoc
+
 type Schema struct {
 	*jsonschema.Schema
-	String string
+	StringRes string
+	StringReq string
 
 	Functions []FunctionDefinition
 }
@@ -26,20 +46,38 @@ type FunctionDefinition struct {
 	Parameters  *jsonschema.Schema `json:"parameters"`
 }
 
-func NewSchema(t reflect.Type) (*Schema, error) {
+func NewSchema(tReq reflect.Type, tRes reflect.Type, godocs ...map[string]string) (*Schema, error) {
 
-	schema := jsonschema.ReflectFromType(t)
+	reflector := new(jsonschema.Reflector)
+	for _, g := range godocs {
+		if len(g) > 0 {
+			if reflector.CommentMap == nil {
+				reflector.CommentMap = make(map[string]string, len(g))
+			}
+			for k, v := range g {
+				reflector.CommentMap[k] = v
+			}
+		}
+	}
+	schemaRes := reflector.ReflectFromType(tRes)
+	schemaReq := reflector.ReflectFromType(tReq)
 
-	str, err := json.MarshalIndent(schema, "", "  ")
+	strRes, err := json.Marshal(schemaRes)
 	if err != nil {
 		return nil, err
 	}
 
-	funcs := ToFunctionSchema(t, schema)
+	strReq, err := json.Marshal(schemaReq)
+	if err != nil {
+		return nil, err
+	}
+
+	funcs := ToFunctionSchema(tRes, schemaRes)
 
 	s := &Schema{
-		Schema: schema,
-		String: string(str),
+		Schema: schemaRes,
+		StringRes: string(strRes),
+		StringReq: string(strReq),
 
 		Functions: funcs,
 	}

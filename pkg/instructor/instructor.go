@@ -68,11 +68,12 @@ const (
 
 // Re-export option functions
 var (
-	WithMode       = core.WithMode
-	WithMaxRetries = core.WithMaxRetries
-	WithValidation = core.WithValidation
-	WithLogger     = core.WithLogger
-	WithLogging    = core.WithLogging
+	WithMode        = core.WithMode
+	WithMaxRetries  = core.WithMaxRetries
+	WithValidation  = core.WithValidation
+	WithLogger      = core.WithLogger
+	WithLogging     = core.WithLogging
+	WithGodocOption = core.WithGodocOption
 )
 
 // Re-export core functions
@@ -83,6 +84,9 @@ var (
 	ChatHandlerUnion = core.ChatHandlerUnion
 	ExtractJSON      = core.ExtractJSON
 	MergeOptions     = core.MergeOptions
+	ContextWithGodoc = core.ContextWithGodoc
+	GodocFromContext = core.GodocFromContext
+	WithGodoc        = core.WithGodoc
 )
 
 // Re-export logger functions

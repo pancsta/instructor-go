@@ -10,6 +10,7 @@ type Options struct {
 	MaxRetries *int
 	Validate   *bool
 	Logger     Logger
+	Godoc      map[string]string
 	// Provider specific options:
 }
 
@@ -34,6 +35,10 @@ func WithValidation() Options {
 
 func WithLogger(logger Logger) Options {
 	return Options{Logger: logger}
+}
+
+func WithGodocOption(godoc map[string]string) Options {
+	return Options{Godoc: godoc}
 }
 
 // WithLogging is a convenience function for common logging setups
@@ -61,6 +66,9 @@ func mergeOption(old, new Options) Options {
 	}
 	if new.Logger != nil {
 		old.Logger = new.Logger
+	}
+	if new.Godoc != nil {
+		old.Godoc = new.Godoc
 	}
 
 	return old

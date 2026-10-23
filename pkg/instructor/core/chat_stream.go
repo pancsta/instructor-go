@@ -28,7 +28,14 @@ func ChatStreamHandler(i Instructor, ctx context.Context, request interface{}, r
 		},
 	})
 
-	schema, err := NewSchema(streamWrapperType)
+	godoc := GodocFromContext(ctx)
+	if godoc == nil {
+		if gp, ok := i.(interface{ Godoc() map[string]string }); ok {
+			godoc = gp.Godoc()
+		}
+	}
+
+	schema, err := NewSchema(reflect.TypeOf(request), streamWrapperType, godoc)
 	if err != nil {
 		return nil, err
 	}

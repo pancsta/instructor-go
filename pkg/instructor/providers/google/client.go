@@ -13,6 +13,7 @@ type InstructorGoogle struct {
 	maxRetries int
 	validate   bool
 	logger     core.Logger
+	godoc      map[string]string
 }
 
 func FromGoogle(client *genai.Client, opts ...core.Options) *InstructorGoogle {
@@ -26,8 +27,13 @@ func FromGoogle(client *genai.Client, opts ...core.Options) *InstructorGoogle {
 		maxRetries: *options.MaxRetries,
 		validate:   *options.Validate,
 		logger:     options.Logger,
+		godoc:      options.Godoc,
 	}
 	return i
+}
+
+func (i *InstructorGoogle) Godoc() map[string]string {
+	return i.godoc
 }
 
 func (i *InstructorGoogle) Provider() core.Provider {
